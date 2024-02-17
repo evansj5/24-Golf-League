@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import os
+from sheets_client import writeToGoogleSheets
 
 api_url = 'https://simulatorgolftour.com/club-api/31/club-scores'
 response = requests.get(api_url)
@@ -62,19 +63,7 @@ if response.status_code == 200:
    # Create a new column 'difference'
     df['PAR'] = df['total_gross'] - df['toPar_gross']
 
-    # Display the DataFrame
     print(df)
-
-
-    
-    #calculate differential for 9 hole rounds
-    #df_filtered_9 = df[df['activeHole'] < 18]
-    #df_filtered_9['differential'] = (((df_filtered_9['total_gross']*2) - df_filtered_9['rating']) * 113) / df_filtered['slope']
-    #df = pd.merge(df, df_filtered_9, on='player_name', how='left')
-
-
-    
-   
 
     # Set options to display all columns and rows
     pd.set_option('display.max_columns', None)
@@ -95,6 +84,8 @@ if response.status_code == 200:
 
     # Save the DataFrame to the CSV file
     df.to_csv(f'output/{output_file_name}', index=False)
+
+    writeToGoogleSheets(os.environ["SPREADSHEET_ID"], os.environ["SHEET_NAME"], "A1", df.values.tolist())
 
     # Display the DataFrame
     print(df)
