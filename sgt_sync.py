@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 from sheets_client import writeToGoogleSheets
 
-api_url = 'https://simulatorgolftour.com/club-api/31/club-scores'
+api_url = 'https://simulatorgolftour.com/club-api/215/club-scores'
 response = requests.get(api_url)
 
 if response.status_code == 200:
