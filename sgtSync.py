@@ -4,6 +4,7 @@ import requests
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import os
 
 api_url = 'https://simulatorgolftour.com/club-api/31/club-scores'
 response = requests.get(api_url)
@@ -78,8 +79,11 @@ if response.status_code == 200:
     # Set options to display all columns and rows
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
+
+    if not os.path.exists('output'):
+        os.makedirs('output')
     
-    df.to_csv('24_league_output.csv', index=False) 
+    df.to_csv(f'output/24_league_output.csv', index=False) 
 
     # Get the current date and time
     current_datetime = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
@@ -90,7 +94,7 @@ if response.status_code == 200:
     output_file_name = f'24_league_output_{current_date}.csv'
 
     # Save the DataFrame to the CSV file
-    df.to_csv(output_file_name, index=False)
+    df.to_csv(f'output/{output_file_name}', index=False)
 
     # Display the DataFrame
     print(df)
