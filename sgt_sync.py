@@ -8,8 +8,13 @@ import os
 from dotenv import load_dotenv
 from sheets_client import writeToGoogleSheets
 
-load_dotenv()
-api_url = 'https://simulatorgolftour.com/club-api/215/club-scores'
+load_dotenv(".env")
+
+sgt_base_url = os.environ['sgt_base_url']
+sgt_id = os.environ['sgt_id']
+sgt_scores_endpoint = os.environ['sgt_scores_endpoint']
+
+api_url = f'{sgt_base_url}/{sgt_id}{sgt_scores_endpoint}'
 response = requests.get(api_url)
 
 if response.status_code == 200:
@@ -87,7 +92,7 @@ if response.status_code == 200:
     # Save the DataFrame to the CSV file
     df.to_csv(f'output/{output_file_name}', index=False)
 
-    writeToGoogleSheets(os.environ["SPREADSHEET_ID"], os.environ["SHEET_NAME"], "A1", df.values.tolist())
+    writeToGoogleSheets(os.environ["spreadsheet_id"], os.environ["sheet_name"], "A1", df.values.tolist())
 
     # Display the DataFrame
     print(df)
