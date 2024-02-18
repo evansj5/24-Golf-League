@@ -5,8 +5,10 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import os
+from dotenv import load_dotenv
 from sheets_client import writeToGoogleSheets
 
+load_dotenv()
 api_url = 'https://simulatorgolftour.com/club-api/215/club-scores'
 response = requests.get(api_url)
 
